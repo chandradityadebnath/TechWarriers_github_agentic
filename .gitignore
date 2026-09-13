@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+case_states/
+resolution_agent.db
+.env

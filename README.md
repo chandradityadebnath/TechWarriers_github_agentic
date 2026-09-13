@@ -2,7 +2,7 @@
 **Tech Zephyr 4.0 · Track 3: Smart Automation · Problem Statement 5**
 
 **Team:** Tech Warriers (solo)
-**Demo video:** [link once recorded]
+**Demo video:** https://drive.google.com/file/d/1eYOOsjpSRiZUDCEoyj55Z-IfxCutYgS4/view?usp=sharing
 
 An agent that actually *resolves* a customer's issue across simulated
 enterprise systems (customer DB, orders, inventory, policy) — not just

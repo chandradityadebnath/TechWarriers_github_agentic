@@ -25,7 +25,7 @@ streamlit run app.py         # the demo UI
 
 > **Before every demo run:** run `python3 db_setup.py` (or click "Reset database" in the sidebar) first. The database is stateful — once an order is refunded/replaced, running the same case again will behave differently, since that action is no longer available. Always demo from a clean seed.
 
-## Approach
+## Approach :
 
 We treat customer resolution as a closed loop, not a single generation
 step: the agent retrieves evidence from four simulated systems (customer,
@@ -37,7 +37,7 @@ block (out of stock → switch to a different allowed action) from a
 **transient** one (a gateway timeout → retry the same action), which
 mirrors how a real support system actually behaves.
 
-## Final solution
+## Final solution :
 
 A single Gemini-powered agent (manual function calling, not the SDK's
 auto-loop) making one tool call per turn against 8 tools backed by a real
@@ -46,7 +46,7 @@ persistent per-case JSON state file. A Streamlit UI streams this reasoning
 live and computes a rubric-coverage checklist from the actual run, rather
 than from a canned script.
 
-## Architecture
+## Architecture :
 
 | File | Role |
 |---|---|
@@ -68,7 +68,7 @@ than from a canned script.
 
 `ORD1004` is the strongest single demo: it hits almost every rubric line in one run.
 
-## How this maps to the rubric
+## How this maps to the rubric :
 
 - **Agentic workflow & autonomy (25%)** — the model decides every tool call itself; nothing is hardcoded per-scenario.
 - **Tool/environment interaction (15%)** — 8 distinct tools, all backed by a real SQLite DB with actual state mutation.
@@ -76,13 +76,13 @@ than from a canned script.
 - **Technical implementation (15%)** — manual function calling (not the SDK's auto-loop) for full control and inspectability; persistent JSON state per case.
 - **Evaluation, verification & robustness (10%)** — `verify_order_state` independently re-reads the DB rather than trusting the action call's own claim; `check_return_window` does deterministic date math instead of trusting the LLM's arithmetic.
 
-## Challenges
+## Challenges :
 
 - **Database is stateful across runs.** Because actions actually mutate the DB, running the same order twice behaves differently the second time (e.g. a refund can't be issued again). We solved this by making the reset step explicit and prominent rather than automatic, so a demo can't silently show stale results.
 - **LLM decision ordering isn't fully deterministic.** The mock test suite (`test_agent_mock.py`) verifies the *loop's* control flow is correct against a scripted sequence, but the live model may take a slightly different, still-valid path than the one shown in our tests.
 - **Distinguishing transient vs. permanent failures.** Early versions treated every failed action the same way (always switch). We split this into two adaptation types so the agent retries recoverable errors instead of abandoning a perfectly valid action.
 
-## Conclusion
+## Conclusion :
 
 The system demonstrates genuine closed-loop agentic behavior against the
 PS5 requirements: goal-driven execution, real tool/environment interaction,

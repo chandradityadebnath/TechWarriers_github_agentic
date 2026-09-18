@@ -76,6 +76,24 @@ than from a canned script.
 - **Technical implementation (15%)** — manual function calling (not the SDK's auto-loop) for full control and inspectability; persistent JSON state per case.
 - **Evaluation, verification & robustness (10%)** — `verify_order_state` independently re-reads the DB rather than trusting the action call's own claim; `check_return_window` does deterministic date math instead of trusting the LLM's arithmetic.
 
+  
+## Key Features
+
+* **Closed-Loop Execution:** Doesn't stop at drafting responses; carries out actual updates and verifies state changes directly in SQLite.
+* **Intelligent Replanning:** Differentiates between transient errors (retries same action) and permanent blocks (switches strategy/action).
+* **Deterministic Auditing:** Logs every tool execution, internal state change, and adaptation event into per-case JSON files.
+* **Live Inspection UI:** Built with Streamlit to trace reasoning steps, monitor tool calls, and evaluate rubric coverage in real time.
+
+## Evaluation & Testing
+
+* **Offline Sanity Check:** Run `python3 test_agent_mock.py` to test decision logic and state flows locally without incurring API costs.
+* **Live Run:** Run `python3 agent.py` to evaluate the agent against active Gemini API calls and real database mutations.
+
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more details.
+
 ## Challenges :
 
 - **Database is stateful across runs.** Because actions actually mutate the DB, running the same order twice behaves differently the second time (e.g. a refund can't be issued again). We solved this by making the reset step explicit and prominent rather than automatic, so a demo can't silently show stale results.

@@ -25,7 +25,7 @@ streamlit run app.py         # the demo UI
 
 > **Before every demo run:** run `python3 db_setup.py` (or click "Reset database" in the sidebar) first. The database is stateful — once an order is refunded/replaced, running the same case again will behave differently, since that action is no longer available. Always demo from a clean seed.
 
-## Approach :
+## Our Approach :
 
 We treat customer resolution as a closed loop, not a single generation
 step: the agent retrieves evidence from four simulated systems (customer,
